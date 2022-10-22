@@ -24,9 +24,9 @@ test("env check", async () => {
   });
 
   // when
-  const result = await conn.query(`SELECT 1`);
+  const [result] = await conn.query(`SELECT 1`);
 
   // then
-  console.log(result);
   await conn.end();
+  expect(result[0]["1"]).toEqual(1);
 });
