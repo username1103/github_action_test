@@ -1,0 +1,11 @@
+{
+  "rootDir": "test",
+  "testRegex": ".*\\.test\\.ts$",
+  "coverageDirectory": "./coverage",
+  "testEnvironment": "node",
+  "testEnvironmentOptions": {
+    "NODE_ENV": "test"
+  },
+  "preset": "ts-jest",
+  "testPathIgnorePatterns": ["/node_modules/"]
+}
