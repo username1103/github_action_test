@@ -15,6 +15,13 @@ test("1+1 = 2", async () => {
 
 test("env check", async () => {
   // given
+  console.log({
+    host: process.env.MYSQL_HOSTNAME,
+    port: parseInt(process.env.MYSQL_PORT, 10),
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  });
   const conn = await mysql2.createConnection({
     host: process.env.MYSQL_HOSTNAME,
     port: parseInt(process.env.MYSQL_PORT, 10),
