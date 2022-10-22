@@ -23,3 +23,11 @@ test("실패 테스트 1+1 = 3", async () => {
   // then
   expect(result).toEqual(3);
 });
+
+test("env check", async () => {
+  // given
+
+  console.log(process.env.MYSQL_HOSTNAME);
+  // when
+  // then
+});
