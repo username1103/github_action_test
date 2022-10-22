@@ -55,3 +55,12 @@ jobs:
           MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         run: npm test
+
+      - name: Slack Notifications
+        uses: 8398a7/action-slack@v2
+        with:
+          status: ${{ job.status }}
+          author_name: CI Test
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.CI_TEST_SLACK_WEBHOOK_URL }}
+        if: always()
