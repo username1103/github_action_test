@@ -70,7 +70,7 @@ jobs:
                   "author_name": "Github Action Test",
                   "title": "Pull Request",
                   "title_link": "${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-                  "text": "테스트",
+                  "text": "테스트"
                   "footer": "footer",
                   "ts": 123456789
                 }
