@@ -3,4 +3,3 @@ export const sum = (a: number, b: number) => {
 };
 
 console.log("1 + 1 = ", sum(1, 1));
-console.log("2 + 2 = ", sum(2, 2));
