@@ -62,14 +62,16 @@ jobs:
         with:
           payload: |
             {
-              "text": "깃허브 CI 테스트: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
+             "attachments": [
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "깃허브 CI 테스트: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
+                  "mrkdwn_in": ["text"],
+                  "color": "#36a64f",
+                  "pretext": "✅ CI Test",
+                  "author_name": "Github Action Test",
+                  "title": "Pull Request",
+                  "title_link": "${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+                  "footer": "footer",
+                  "ts": 123456789
                 }
               ]
             }
