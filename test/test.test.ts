@@ -1,3 +1,4 @@
+import mysql2 from "mysql2/promise";
 import { sum } from "../src/index";
 
 test("1+1 = 2", async () => {
@@ -14,8 +15,18 @@ test("1+1 = 2", async () => {
 
 test("env check", async () => {
   // given
+  const conn = await mysql2.createConnection({
+    host: process.env.MYSQL_HOSTNAME,
+    port: parseInt(process.env.MYSQL_PORT, 10),
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  });
 
-  console.log(process.env.MYSQL_HOSTNAME);
   // when
+  const result = await conn.query(`SELECT 1`);
+
   // then
+  console.log(result);
+  await conn.end();
 });
