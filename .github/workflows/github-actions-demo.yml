@@ -49,9 +49,9 @@ jobs:
 
       - name: Test
         env:
-          MYSQL_HOSTNAME: ${{ secret.MYSQL_HOSTNAME }}
-          MYSQL_USERNAME: ${{ secret.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secret.MYSQL_PASSWORD }}
-          MYSQL_PORT: ${{ secret.MYSQL_PORT }}
-          MYSQL_DATABASE: ${{ secret.MYSQL_DATABASE }}
+          MYSQL_HOSTNAME: ${{ secrets.MYSQL_HOSTNAME }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         run: npm test
