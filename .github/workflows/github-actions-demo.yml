@@ -1,18 +1,70 @@
-name: GitHub Actions Demo
+name: Node CI Test
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+
+on:
+  pull_request:
+    branches:
+      - master
+
 jobs:
-  Explore-GitHub-Actions:
+  ci-job:
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ job.status }}
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: "admin"
+          MYSQL_USER: "test"
+          MYSQL_PASSWORD: "test"
+          MYSQL_DATABASE: "test"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      - name: checkout
         uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Use Node.JS ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependency
+        run: npm ci
+
+      - name: Install rimraf
+        run: npm install -g rimraf
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Test
+        env:
+          MYSQL_HOSTNAME: ${{ secrets.MYSQL_HOSTNAME }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+        run: npm test
+
+  slack-notifications:
+    needs: ci-job
+    if: ${{ always() }}
+    uses: ./.github/workflows/slack-notification.yml
+    with:
+      title: 깃헙 CI TEST
+      status: ${{ needs.ci-job.outputs.status }}
+      commit_url: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+    secrets:
+      webhook_url: ${{ secrets.CI_TEST_SLACK_WEBHOOK_URL }}
