@@ -10,6 +10,8 @@ jobs:
   ci-job:
     runs-on: ubuntu-latest
 
+    outputs:
+      status: ${{ job.status }}
     strategy:
       matrix:
         node-version: [18.x]
@@ -62,6 +64,6 @@ jobs:
     uses: ./.github/workflows/slack-notification.yml
     with:
       title: 깃헙 CI TEST
-      status: ${{ jobs.ci-job.status }}
+      status: ${{ needs.ci-job.outputs.status }}
       commit_url: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
     secrets: inherit
