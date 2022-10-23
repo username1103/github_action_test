@@ -57,22 +57,10 @@ jobs:
         run: npm test
 
       - name: Slack Notifications
-        id: slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: ./.github/workflows/slack-notification.yml
         with:
-          payload: |
-            {
-              "text": "깃허브 CI 테스트: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "깃허브 CI 테스트: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.CI_TEST_SLACK_WEBHOOK_URL }}
-        if: always()
+          title: 깃헙 CI TEST
+          status: ${{ job.status }}
+          commit_url: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+        secrets:
+          webhook_url: ${{ secrets.CI_TEST_SLACK_WEBHOOK_URL }}
