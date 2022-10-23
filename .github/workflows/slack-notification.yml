@@ -13,6 +13,9 @@ on:
       commit_url:
         required: true
         type: string
+    secrets:
+      webhook_url:
+        required: true
 
 jobs:
   slack-notification:
