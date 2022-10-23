@@ -13,9 +13,6 @@ on:
       commit_url:
         required: true
         type: string
-    secrets:
-      webhook_url:
-        required: true
 
 jobs:
   slack-notification:
@@ -39,4 +36,4 @@ jobs:
               ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.CI_TEST_SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.webhook_url }}
