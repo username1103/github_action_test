@@ -56,12 +56,12 @@ jobs:
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         run: npm test
 
-    slack-notifications:
-      needs: ci-job
-      if: ${{ always() }}
-      uses: ./.github/workflows/slack-notification.yml
-      with:
-        title: 깃헙 CI TEST
-        status: ${{ jobs.ci-job.status }}
-        commit_url: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
-      secrets: inherit
+  slack-notifications:
+    needs: ci-job
+    if: ${{ always() }}
+    uses: ./.github/workflows/slack-notification.yml
+    with:
+      title: 깃헙 CI TEST
+      status: ${{ jobs.ci-job.status }}
+      commit_url: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+    secrets: inherit
