@@ -5,17 +5,17 @@ on:
   workflow_call:
     inputs:
       title:
-        require: true
+        required: true
         type: string
       status:
-        require: true
+        required: true
         type: string
       commit_url:
-        require: true
+        required: true
         type: string
     secrets:
       webhook_url:
-        require: true
+        required: true
         type: string
 
 jobs:
