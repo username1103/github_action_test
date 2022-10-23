@@ -30,3 +30,15 @@ test("env check", async () => {
   await conn.end();
   expect(result[0]["1"]).toEqual(1);
 });
+
+test("실패 테스트 케이스", async () => {
+  // given
+  const a = 1;
+  const b = 1;
+
+  // when
+  const result = sum(a, b);
+
+  // then
+  expect(result).toEqual(3);
+});
